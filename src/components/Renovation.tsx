@@ -35,9 +35,19 @@ export default function Renovation() {
                       </div>
                     </div>
                     <div className="text-xs text-ink-light mt-0.5">{r.description}</div>
-                    <div className="flex gap-4 mt-1 text-xs">
-                      <span className="text-cinnabar">声望 +{r.level * r.bonusReputation}</span>
-                      <span className="text-tea">舒适度 +{Math.round(r.level * r.bonusComfort * 100)}%</span>
+                    <div className="flex flex-wrap gap-3 mt-1 text-xs">
+                      {r.bonusReputation > 0 && (
+                        <span className="text-cinnabar">声望 +{r.level * r.bonusReputation}</span>
+                      )}
+                      {r.bonusComfort > 0 && (
+                        <span className="text-tea">舒适度 +{Math.round(r.level * r.bonusComfort * 100)}%</span>
+                      )}
+                      {r.bonusQueueCapacity > 0 && (
+                        <span className="text-sandal">候场容量 +{r.level * r.bonusQueueCapacity}</span>
+                      )}
+                      {r.bonusStandingCapacity > 0 && (
+                        <span className="text-gold">站票容量 +{r.level * r.bonusStandingCapacity}</span>
+                      )}
                     </div>
                   </div>
                 </div>

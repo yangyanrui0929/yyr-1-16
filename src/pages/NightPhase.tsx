@@ -4,6 +4,7 @@ import StatusPanel from '@/components/StatusPanel'
 import StoryPicker from '@/components/StoryPicker'
 import Performance from '@/components/Performance'
 import Settlement from '@/components/Settlement'
+import QueuePanel from '@/components/QueuePanel'
 import { useGameStore } from '@/store/useGameStore'
 
 export default function NightPhase() {
@@ -37,6 +38,7 @@ export default function NightPhase() {
         </div>
 
         <div className="grid grid-cols-1 gap-6">
+          <QueuePanel />
           <StoryPicker />
           <Performance />
         </div>

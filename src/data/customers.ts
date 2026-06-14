@@ -77,7 +77,9 @@ export function generateRandomCustomers(count: number): Customer[] {
       wealth: tpl.baseWealth + Math.floor(Math.random() * tpl.baseWealth * 0.5),
       socialInfluence: tpl.socialInfluence,
       seatId: null,
+      isStanding: false,
       satisfaction: 50,
+      waitTime: 0,
       emoji: tpl.emoji,
     })
   }

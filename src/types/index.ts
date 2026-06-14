@@ -34,6 +34,8 @@ export interface Renovation {
   baseCost: number
   bonusReputation: number
   bonusComfort: number
+  bonusQueueCapacity: number
+  bonusStandingCapacity: number
   description: string
   emoji: string
 }
@@ -78,8 +80,50 @@ export interface Customer {
   wealth: number
   socialInfluence: number
   seatId: number | null
+  isStanding: boolean
   satisfaction: number
+  waitTime: number
   emoji: string
+}
+
+export interface WaitingCustomer {
+  id: string
+  type: CustomerType
+  name: string
+  preferenceTags: string[]
+  generosity: number
+  patience: number
+  wealth: number
+  socialInfluence: number
+  satisfaction: number
+  waitTime: number
+  emoji: string
+}
+
+export type LimitStrategy = 'none' | 'moderate' | 'strict'
+
+export interface CrowdEffects {
+  incomeBonus: number
+  noiseComplaints: number
+  eavesdropCount: number
+  badReviewSpread: number
+}
+
+export interface QueueConfig {
+  capacity: number
+  standingCapacity: number
+  benchCount: number
+  standingTicketEnabled: boolean
+  standingTicketPrice: number
+  limitStrategy: LimitStrategy
+  crowdLevel: number
+}
+
+export interface CrowdEvent {
+  id: string
+  type: 'noise' | 'eavesdrop' | 'bad_review'
+  content: string
+  effect: number
 }
 
 export interface InterruptionOption {
@@ -134,6 +178,10 @@ export interface GameState {
   seats: Seat[]
   renovations: Renovation[]
   customers: Customer[]
+  waitingCustomers: WaitingCustomer[]
+  queueConfig: QueueConfig
+  crowdEvents: CrowdEvent[]
+  currentCrowdEvent: CrowdEvent | null
   currentStory: Story | null
   currentBranch: StoryBranch | null
   storyProgress: number
@@ -153,17 +201,25 @@ export interface GameState {
 export interface SettlementResult {
   day: number
   audienceCount: number
+  standingCount: number
+  waitingCount: number
   baseEarnings: number
+  standingTicketRevenue: number
+  crowdIncomeBonus: number
   tasteMatchBonus: number
   seatViewBonus: number
   storyHeatBonus: number
   serialExpectBonus: number
+  noiseComplaintPenalty: number
+  eavesdropPenalty: number
+  badReviewSpreadPenalty: number
   badReviewPenalty: number
   tips: number
   snackRevenue: number
   totalEarnings: number
   reputationDelta: number
   avgSatisfaction: number
+  crowdLevel: number
 }
 
 export interface CalcResult {

@@ -74,10 +74,18 @@ export default function Settlement() {
           <div className="text-sm text-ink-light">第 {r.day} 日夜场说书</div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mb-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
           <div className="card-ancient text-center">
             <div className="stat-label">观众人数</div>
             <div className="stat-value">{r.audienceCount} 人</div>
+          </div>
+          <div className="card-ancient text-center">
+            <div className="stat-label">站票客人</div>
+            <div className="stat-value text-sandal">{r.standingCount} 人</div>
+          </div>
+          <div className="card-ancient text-center">
+            <div className="stat-label">候场客人</div>
+            <div className="stat-value text-cinnabar">{r.waitingCount} 人</div>
           </div>
           <div className="card-ancient text-center">
             <div className="stat-label">平均满意度</div>
@@ -85,14 +93,45 @@ export default function Settlement() {
           </div>
         </div>
 
+        {r.crowdLevel > 0 && (
+          <div className={`mb-4 p-3 rounded-lg border-2 text-center ${
+            r.crowdLevel >= 4 ? 'bg-cinnabar/10 border-cinnabar/30' : 'bg-sandal/10 border-sandal/30'
+          }`}>
+            <div className="font-song text-sm text-ink-light mb-1">拥挤等级</div>
+            <div className="flex items-center justify-center gap-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`w-3 h-3 rounded-full ${i < r.crowdLevel ? 'bg-cinnabar' : 'bg-paper-dark'}`}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="space-y-2 mb-5">
           <Row label="基础门票收入" value={r.baseEarnings} positive showIcon />
+          {r.standingTicketRevenue > 0 && (
+            <Row label="站票收入" value={r.standingTicketRevenue} positive />
+          )}
+          {r.crowdIncomeBonus > 0 && (
+            <Row label="拥挤红利" value={r.crowdIncomeBonus} positive />
+          )}
           <Row label="口味匹配加成" value={r.tasteMatchBonus} positive />
           <Row label="座位视野加成" value={r.seatViewBonus} positive />
           <Row label="故事热度加成" value={r.storyHeatBonus} positive />
           <Row label="连载期待加成" value={r.serialExpectBonus} positive />
           <Row label="打赏收入" value={r.tips} positive />
           <Row label="茶点售卖利润" value={r.snackRevenue} positive />
+          {r.noiseComplaintPenalty > 0 && (
+            <Row label="噪声投诉罚金" value={r.noiseComplaintPenalty} />
+          )}
+          {r.eavesdropPenalty > 0 && (
+            <Row label="偷听漏句损失" value={r.eavesdropPenalty} />
+          )}
+          {r.badReviewSpreadPenalty > 0 && (
+            <Row label="差评扩散损失" value={r.badReviewSpreadPenalty} />
+          )}
           {r.badReviewPenalty > 0 && <Row label="差评索赔" value={r.badReviewPenalty} />}
         </div>
 
